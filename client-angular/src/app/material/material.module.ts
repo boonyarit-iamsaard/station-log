@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -17,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
+    MatGridListModule,
     MatNativeDateModule,
     MatIconModule,
     MatInputModule,

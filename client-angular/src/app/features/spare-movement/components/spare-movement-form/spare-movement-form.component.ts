@@ -15,9 +15,16 @@ export class SpareMovementFormComponent implements OnInit {
     createdDate: new FormControl(new Date()),
     airline: new FormControl('CX'),
     fltno: new FormControl(''),
+    acreg: new FormControl(''),
+    partno: new FormControl(''),
+    desc: new FormControl(''),
+    serno: new FormControl(''),
+    grn: new FormControl(''),
+    qty: new FormControl(''),
+    store: new FormControl(''),
   });
 
   onCreateSpareMovement() {
-    console.log(this.spareMovementForm.value);
+    console.log(this.spareMovementForm);
   }
 }

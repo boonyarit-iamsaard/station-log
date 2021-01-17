@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -8,7 +9,12 @@ import { SpareMovementFormComponent } from './components/spare-movement-form/spa
 
 @NgModule({
   declarations: [SpareMovementComponent, SpareMovementFormComponent],
-  imports: [CommonModule, MaterialModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    FlexLayoutModule,
+    MaterialModule,
+    ReactiveFormsModule,
+  ],
   exports: [SpareMovementComponent],
 })
 export class SpareMovementModule {}
