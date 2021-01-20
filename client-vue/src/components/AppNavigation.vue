@@ -2,17 +2,20 @@
   <nav>
     <v-app-bar color="primary" dark app>
       <v-app-bar-nav-icon
-        class="hidden-md-and-up"
+        class="hidden-lg-and-up"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
+      <v-toolbar-items class="align-center">
+        <v-img src="../assets/logo-white.png"></v-img>
+      </v-toolbar-items>
       <v-toolbar-title>{{ title }}</v-toolbar-title>
     </v-app-bar>
     <v-navigation-drawer
       app
-      color="grey lighten-4"
+      color="white"
       v-model="drawer"
       clipped-left
-      :permanent="$vuetify.breakpoint.mdAndUp"
+      :permanent="$vuetify.breakpoint.lgAndUp"
     >
       <v-toolbar color="primary"> </v-toolbar>
     </v-navigation-drawer>
@@ -29,7 +32,7 @@ export default {
   },
   computed: {
     title() {
-      return this.$vuetify.breakpoint.mdAndUp
+      return this.$vuetify.breakpoint.smAndUp
         ? 'Bangkok Engineering - Station Log'
         : 'Station Log';
     }
