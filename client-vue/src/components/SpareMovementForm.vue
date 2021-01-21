@@ -96,16 +96,12 @@
             <v-col cols="12" class="pt-0">
               <v-radio-group row label="Type" v-model="spareMovementData.type">
                 <v-radio
-                  label="Consumable"
-                  color="primary"
-                  value="Consumable"
+                  v-for="type in formSelectItems.typeItems"
+                  :key="type.id"
+                  :label="type.label"
+                  :color="type.color"
+                  :value="type.value"
                 ></v-radio>
-                <v-radio
-                  label="Return"
-                  color="secondary"
-                  value="Return"
-                ></v-radio>
-                <v-radio label="Fluid" color="accent" value="Fluid"></v-radio>
               </v-radio-group>
             </v-col>
             <v-col cols="12" sm="4" class="pt-0">
@@ -222,6 +218,11 @@ export default {
       datePickerMenu: false,
       formSelectItems: {
         airlineItems: ['ASL', 'CX', 'LD', 'PR'],
+        typeItems: [
+          { id: 1, label: 'Consumable', color: 'primary', value: 'Consumable' },
+          { id: 2, label: 'Return', color: 'secondary', value: 'Return' },
+          { id: 3, label: 'Fluid', color: 'accent', value: 'Fluid' }
+        ],
         storeItems: ['BKK', 'BKK306'],
         usedByItems: ['Boonyarit', 'Theerapong', 'Totsapon']
       },

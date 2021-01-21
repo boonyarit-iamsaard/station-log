@@ -13,10 +13,12 @@
         <v-icon @click="formData(item)">mdi-pencil</v-icon>
       </template>
       <template v-slot:item.type="{ item }">
-        <!-- {{ item.type.substr(0, 1) }} -->
         <v-icon>
           {{ itemTypeIcon(item.type) }}
         </v-icon>
+      </template>
+      <template v-slot:item.desc="{ item }">
+        {{ itemDesc(item.desc) }}
       </template>
       <template v-slot:item.grn="{ item }">
         {{ item.grn.substr(3) }}
@@ -96,6 +98,10 @@ export default {
           break;
       }
       return icon;
+    },
+
+    itemDesc(item) {
+      return item.length >= 5 ? `${item.substr(0, 5)}...` : item;
     }
   },
 
