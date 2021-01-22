@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'TheHeading',
+  name: 'AppNavigation',
   data() {
     return {
       drawer: false

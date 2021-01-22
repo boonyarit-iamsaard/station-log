@@ -13,8 +13,8 @@
         <v-icon @click="formData(item)">mdi-pencil</v-icon>
       </template>
       <template v-slot:item.type="{ item }">
-        <v-icon>
-          {{ itemTypeIcon(item.type) }}
+        <v-icon :color="itemTypeIcon(item.type).color">
+          {{ itemTypeIcon(item.type).name }}
         </v-icon>
       </template>
       <template v-slot:item.desc="{ item }">
@@ -27,6 +27,7 @@
     <SpareMovementForm
       @close="onCloseDialog"
       @onAirlineChange="onAirlineChangeHandler(formDataItem, formData)"
+      :mode="'update'"
       :button="'Update'"
       :dialog="dialog"
       :spareMovementData="formDataItem"
@@ -85,16 +86,19 @@ export default {
     },
 
     itemTypeIcon(item) {
-      let icon;
+      let icon = {};
       switch (item) {
         case 'Consumable':
-          icon = 'mdi-alpha-c-circle';
+          icon.name = 'mdi-alpha-c-circle';
+          icon.color = 'primary';
           break;
         case 'Return':
-          icon = 'mdi-alpha-r-circle';
+          icon.name = 'mdi-alpha-r-circle';
+          icon.color = 'secondary';
           break;
         case 'Fluid':
-          icon = 'mdi-alpha-f-circle';
+          icon.name = 'mdi-alpha-f-circle';
+          icon.color = 'accent';
           break;
       }
       return icon;

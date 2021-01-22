@@ -48,7 +48,10 @@ export default {
         grn: '',
         qty: 0,
         store: 'BKK',
-        usedBy: ''
+        usedBy: '',
+        issued: false,
+        issuedNo: '',
+        issuedBy: ''
       }
     };
   },

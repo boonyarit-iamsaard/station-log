@@ -3,7 +3,7 @@
     <v-form v-model="valid" ref="form" @submit.prevent="onFormSubmitHandler">
       <v-card class="pa-0">
         <v-card-title primary-title class="justify-center accent">
-          Spare Movement Form
+          <span class="text--white">Spare Movement Form</span>
         </v-card-title>
         <v-container class="pa-4">
           <v-row>
@@ -94,7 +94,12 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" class="pt-0">
-              <v-radio-group row label="Type" v-model="spareMovementData.type">
+              <v-radio-group
+                label="Type"
+                dense
+                :row="$vuetify.breakpoint.smAndUp"
+                v-model="spareMovementData.type"
+              >
                 <v-radio
                   v-for="type in formSelectItems.typeItems"
                   :key="type.id"
@@ -154,21 +159,75 @@
                 outlined
                 dense
                 :items="formSelectItems.usedByItems"
-                :rules="spareMovementRules.useByRules"
+                :rules="spareMovementRules.usedByRules"
                 v-model="spareMovementData.usedBy"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" class="py-0" v-if="mode === 'update'">
+              <v-switch
+                inset
+                label="Issued ?"
+                v-model="spareMovementData.issued"
+              ></v-switch>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              class="pt-0"
+              v-if="mode === 'update' && spareMovementData.issued"
+            >
+              <v-text-field
+                label="Issued No."
+                outlined
+                dense
+                :rules="spareMovementRules.issuedNoRules"
+                @keyup="issuedNoToUpperCase"
+                v-model="spareMovementData.issuedNo"
+              ></v-text-field>
+            </v-col>
+            <v-col
+              cols="12"
+              sm="6"
+              class="pt-0"
+              v-if="mode === 'update' && spareMovementData.issued"
+            >
+              <v-select
+                label="Issued By"
+                outlined
+                dense
+                :items="formSelectItems.usedByItems"
+                :rules="spareMovementRules.issuedByRules"
+                v-model="spareMovementData.issuedBy"
               ></v-select>
             </v-col>
           </v-row>
         </v-container>
         <v-divider></v-divider>
         <v-card-actions class="pa-4">
-          <v-btn color="primary" type="submit"
-            ><v-icon small class="mr-2">mdi-check</v-icon>{{ button }}</v-btn
-          >
+          <v-btn color="primary" type="submit">
+            <v-icon small class="mr-2">
+              {{ mode === 'create' ? 'mdi-plus' : 'mdi-pencil' }}
+            </v-icon>
+            {{ mode }}
+          </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="secondary" @click="onCloseFormHandler"
-            ><v-icon small class="mr-2">mdi-cancel</v-icon>Cancel</v-btn
+          <v-btn dark color="grey" @click="onCloseFormHandler">
+            <v-icon small class="mr-2">
+              mdi-cancel
+            </v-icon>
+            Cancel
+          </v-btn>
+          <v-btn
+            dark
+            color="secondary"
+            @click="onDeleteSpareHandler"
+            v-if="mode === 'update'"
           >
+            <v-icon small class="mr-2">
+              mdi-delete
+            </v-icon>
+            Delete
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-form>
@@ -190,11 +249,16 @@ export default {
       type: String,
       default: 'Add'
     },
+    mode: {
+      type: String,
+      default: 'create'
+    },
     spareMovementData: {
       type: Object,
       default: () => {
         return {
           date: new Date().toISOString().substr(0, 10),
+          acreg: '',
           airline: 'CX',
           tail: '',
           fltno: '',
@@ -205,7 +269,10 @@ export default {
           grn: '',
           qty: 0,
           store: 'BKK',
-          usedBy: ''
+          usedBy: '',
+          issued: false,
+          issuedNo: '',
+          issuedBy: ''
         };
       }
     }
@@ -231,9 +298,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(['addSpare']),
+    ...mapActions(['addSpare', 'updateSpare', 'deleteSpare']),
 
     onFormSubmitHandler() {
+      // const formOpen = false;
+
       this.spareMovementRules = {
         tailRules: [v => !!v || 'Reg. is required.'],
         fltnoRules: [v => !!v || 'Flt No. is required.'],
@@ -245,42 +314,53 @@ export default {
           v => !!v || 'Qty. is required.',
           v => v !== 0 || 'Qty. must not be 0.'
         ],
-        useByRules: [v => !!v || 'Used By is required.']
+        usedByRules: [v => !!v || 'Used By is required.'],
+        issuedNoRules: [v => !!v || 'Issued No. is required.'],
+        issuedByRules: [v => !!v || 'Issued By is required.']
       };
 
-      this.$nextTick(() => {
-        if (this.$refs.form.validate()) {
-          const id = Date.now();
-          const acreg = `${this.prefix}${this.spareMovementData.tail}`;
-          const tail = this.tail;
-          const qty = parseInt(this.spareMovementData.qty, 10);
-          const issued = false;
-          const issuedBy = '';
-          const submitData = {
-            ...this.spareMovementData,
-            id,
-            acreg,
-            tail,
-            qty,
-            issued,
-            issuedBy
-          };
-          this.addSpare(submitData);
-          const formOpen = false;
+      if (this.mode === 'create') {
+        this.$nextTick(() => {
+          if (this.$refs.form.validate()) {
+            const id = Date.now();
+            const acreg = this.acreg;
+            const qty = parseInt(this.spareMovementData.qty, 10);
+            const submitData = {
+              ...this.spareMovementData,
+              id,
+              acreg,
+              qty
+            };
+            this.addSpare(submitData);
 
-          Promise.resolve().then(() => {
-            this.spareMovementRules = {};
-            this.onResetFormHandler();
-            this.$emit('close', formOpen);
-          });
-        }
-      });
+            Promise.resolve().then(() => {
+              this.spareMovementRules = {};
+              this.onResetFormHandler();
+              this.$emit('close', false);
+            });
+          }
+        });
+      } else {
+        this.$nextTick(() => {
+          if (this.$refs.form.validate()) {
+            const acreg = this.acreg;
+            const submitData = { ...this.spareMovementData, acreg };
+            this.updateSpare(submitData);
+
+            Promise.resolve().then(() => {
+              this.spareMovementRules = {};
+              this.$emit('close', false);
+            });
+          }
+        });
+      }
     },
 
     onResetFormHandler() {
       const formData = {
         date: new Date().toISOString().substr(0, 10),
         airline: 'CX',
+        acreg: '',
         tail: '',
         fltno: '',
         part: '',
@@ -290,9 +370,18 @@ export default {
         grn: '',
         qty: 0,
         store: 'BKK',
-        usedBy: ''
+        usedBy: '',
+        issued: false,
+        issuedNo: '',
+        issuedBy: ''
       };
       this.$emit('onResetForm', formData);
+    },
+
+    onDeleteSpareHandler() {
+      console.log(this.spareMovementData.id);
+      this.deleteSpare(this.spareMovementData.id);
+      this.$emit('close', false);
     },
 
     onAirlineChangeHandler() {
@@ -322,6 +411,10 @@ export default {
 
     grnToUpperCase() {
       this.spareMovementData.grn = this.spareMovementData.grn.toUpperCase();
+    },
+
+    issuedNoToUpperCase() {
+      this.spareMovementData.issuedNo = this.spareMovementData.issuedNo.toUpperCase();
     }
   },
 
@@ -349,6 +442,10 @@ export default {
       if (this.$vuetify.breakpoint.name === 'xs') {
         return '90%';
       } else return 700;
+    },
+
+    acreg() {
+      return `${this.prefix}${this.spareMovementData.tail}`;
     }
   },
 
