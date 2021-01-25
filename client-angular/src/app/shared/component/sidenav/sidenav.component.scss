@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.is-mobile .toolbar {
+  height: 56px;
+  position: fixed;
+  z-index: 2;
+}
+
+h1.app-name {
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+.sidenav-container {
+  flex: 1;
+}
+
+.sidenav {
+  width: 240px;
+  padding: 1rem;
+}
+.is-mobile .sidenav-container {
+  flex: 1 0 auto;
+}

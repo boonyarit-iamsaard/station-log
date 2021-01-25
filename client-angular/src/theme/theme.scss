@@ -1,0 +1,41 @@
+$mat-primary: (
+  main: #006564,
+  lighter: #b3d1d1,
+  darker: #004948,
+  200: #006564,
+  // For slide toggle,
+  contrast:
+    (
+      main: $light-primary-text,
+      lighter: $dark-primary-text,
+      darker: $light-primary-text,
+    ),
+);
+
+$mat-accent: (
+  main: #c1b49a,
+  lighter: #ece9e1,
+  darker: #ab9c7e,
+  200: #c1b49a,
+  // For slide toggle,
+  contrast:
+    (
+      main: $dark-primary-text,
+      lighter: $dark-primary-text,
+      darker: $dark-primary-text,
+    ),
+);
+
+$mat-warn: (
+  main: #a51e36,
+  lighter: #e4bcc3,
+  darker: #8a1222,
+  200: #a51e36,
+  // For slide toggle,
+  contrast:
+    (
+      main: $light-primary-text,
+      lighter: $dark-primary-text,
+      darker: $light-primary-text,
+    ),
+);

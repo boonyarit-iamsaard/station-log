@@ -1,0 +1,36 @@
+<div class="container" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar color="primary" class="toolbar">
+    <button
+      mat-icon-button
+      (click)="sidenav.toggle()"
+      *ngIf="mobileQuery.matches"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="app-name display-3" *ngIf="appNameMobileQuery.matches">
+      Station Log
+    </h1>
+    <h1 class="app-name display-3" *ngIf="!appNameMobileQuery.matches">
+      Bangkok Engineering - Station Log
+    </h1>
+  </mat-toolbar>
+
+  <mat-sidenav-container
+    class="sidenav-container"
+    [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+  >
+    <mat-sidenav
+      #sidenav
+      class="sidenav"
+      [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [opened]="!mobileQuery.matches"
+      [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="56"
+    >
+      Inside drawer
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <ng-content></ng-content>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
