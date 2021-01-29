@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-spare-movement-form',
@@ -7,10 +7,23 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./spare-movement-form.component.scss'],
 })
 export class SpareMovementFormComponent implements OnInit {
-  date = new FormControl(new Date());
-  airline = new FormControl('CX');
-  fltno = new FormControl('');
-  acreg = new FormControl('');
+  spareMovementForm = new FormGroup({
+    date: new FormControl(new Date()),
+    airline: new FormControl('CX'),
+    fltno: new FormControl(''),
+    acreg: new FormControl(''),
+    part: new FormControl(''),
+    desc: new FormControl(''),
+    serial: new FormControl('NIL'),
+    grn: new FormControl(''),
+    qty: new FormControl(0),
+    store: new FormControl(''),
+    usedBy: new FormControl(''),
+  });
+
+  onSubmit() {
+    console.log(this.spareMovementForm.value);
+  }
 
   constructor() {}
 

@@ -1,23 +1,50 @@
 <mat-card>
   <p>spare-movement-form</p>
-  <form>
-    <mat-form-field appearance="outline">
-      <mat-label>Date</mat-label>
-      <input matInput [matDatepicker]="picker" [formControl]="date" />
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Airline</mat-label>
-      <input matInput [formControl]="airline" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>Flt No.</mat-label>
-      <input matInput [formControl]="fltno" />
-    </mat-form-field>
-    <mat-form-field appearance="outline">
-      <mat-label>A/C Reg.</mat-label>
-      <input matInput [formControl]="acreg" />
-    </mat-form-field>
+  <form [formGroup]="spareMovementForm" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxFlexFill>
+      <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Airline</mat-label>
+        <input matInput formControlName="airline" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Flt No.</mat-label>
+        <input matInput formControlName="fltno" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>A/C Reg.</mat-label>
+        <input matInput formControlName="acreg" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxFlexFill>
+      <mat-form-field appearance="outline">
+        <mat-label>Part No.</mat-label>
+        <input matInput formControlName="part" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="desc" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxFlexFill fxLayoutGap="1rem">
+      <mat-form-field appearance="outline">
+        <mat-label>Serial No.</mat-label>
+        <input matInput formControlName="serial" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>GRN</mat-label>
+        <input matInput formControlName="grn" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Qty.</mat-label>
+        <input matInput formControlName="qty" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Submit</button>
   </form>
 </mat-card>
