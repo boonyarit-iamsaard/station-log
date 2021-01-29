@@ -1,0 +1,23 @@
+<mat-card>
+  <p>spare-movement-form</p>
+  <form>
+    <mat-form-field appearance="outline">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="date" />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Airline</mat-label>
+      <input matInput [formControl]="airline" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Flt No.</mat-label>
+      <input matInput [formControl]="fltno" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>A/C Reg.</mat-label>
+      <input matInput [formControl]="acreg" />
+    </mat-form-field>
+  </form>
+</mat-card>
