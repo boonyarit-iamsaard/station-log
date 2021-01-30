@@ -1,7 +1,7 @@
 <mat-card>
   <p>spare-movement-form</p>
   <form [formGroup]="spareMovementForm" (ngSubmit)="onSubmit()">
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem" fxFlexFill>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
       <mat-form-field appearance="outline">
         <mat-label>Date</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="date" />
@@ -10,7 +10,11 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Airline</mat-label>
-        <input matInput formControlName="airline" />
+        <mat-select formControlName="airline">
+          <mat-option *ngFor="let airline of airlines" [value]="airline.value">
+            {{ airline.text }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Flt No.</mat-label>
@@ -21,7 +25,7 @@
         <input matInput formControlName="acreg" />
       </mat-form-field>
     </div>
-    <div fxLayout="column" fxFlexFill>
+    <div fxLayout="column">
       <mat-form-field appearance="outline">
         <mat-label>Part No.</mat-label>
         <input matInput formControlName="part" />
@@ -31,18 +35,36 @@
         <input matInput formControlName="desc" />
       </mat-form-field>
     </div>
-    <div fxLayout="row" fxLayout.xs="column" fxFlexFill fxLayoutGap="1rem">
-      <mat-form-field appearance="outline">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
+      <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Serial No.</mat-label>
         <input matInput formControlName="serial" />
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>GRN</mat-label>
         <input matInput formControlName="grn" />
       </mat-form-field>
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Qty.</mat-label>
-        <input matInput formControlName="qty" />
+        <input matInput formControlName="qty" type="number" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
+      <mat-form-field appearance="outline" fxFlex="grow">
+        <mat-label>Store</mat-label>
+        <mat-select formControlName="store">
+          <mat-option *ngFor="let store of stores" [value]="store.value">
+            {{ store.text }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" fxFlex="grow">
+        <mat-label>Used By</mat-label>
+        <mat-select formControlName="usedBy" name="usedBy">
+          <mat-option *ngFor="let name of names" [value]="name.value">
+            {{ name.text }}
+          </mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <button mat-raised-button color="primary" type="submit">Submit</button>
