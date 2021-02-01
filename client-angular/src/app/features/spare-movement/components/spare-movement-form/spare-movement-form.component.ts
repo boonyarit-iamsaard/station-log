@@ -48,14 +48,14 @@ export class SpareMovementFormComponent implements OnInit {
       date: new FormControl(new Date()),
       airline: new FormControl(this.airlines[1].value),
       fltno: new FormControl('', Validators.required),
-      acreg: new FormControl(''),
-      part: new FormControl(''),
-      desc: new FormControl(''),
-      serial: new FormControl('NIL'),
-      grn: new FormControl(''),
-      qty: new FormControl(0),
+      acreg: new FormControl('', Validators.required),
+      part: new FormControl('', Validators.required),
+      desc: new FormControl('', Validators.required),
+      serial: new FormControl('NIL', Validators.required),
+      grn: new FormControl('', [Validators.required, Validators.minLength(10)]),
+      qty: new FormControl(0, [Validators.required]),
       store: new FormControl(this.stores[0].value),
-      usedBy: new FormControl(''),
+      usedBy: new FormControl('', Validators.required),
     });
   }
 
