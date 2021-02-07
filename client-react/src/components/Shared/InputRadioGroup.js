@@ -1,3 +1,4 @@
+import { Controller } from 'react-hook-form';
 import {
   FormControl,
   FormControlLabel,
@@ -18,33 +19,28 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const InputRadioGroup = ({
-  name,
-  label,
-  items,
-  value,
-  onInputChangeHandler
-}) => {
+const InputRadioGroup = ({ control, name, items, label }) => {
   const classes = useStyles();
 
   return (
-    <FormControl required component="fieldset" className={classes.root}>
+    <FormControl component="fieldset" className={classes.root}>
       <FormLabel component="legend">{label}</FormLabel>
-      <RadioGroup
+      <Controller
+        as={
+          <RadioGroup className={classes.radioGroup}>
+            {items.map(item => (
+              <FormControlLabel
+                value={item.value}
+                control={<Radio />}
+                label={item.label}
+                key={item.value}
+              />
+            ))}
+          </RadioGroup>
+        }
         name={name}
-        value={value}
-        onChange={onInputChangeHandler}
-        className={classes.radioGroup}
-      >
-        {items.map(item => (
-          <FormControlLabel
-            value={item.value}
-            control={<Radio />}
-            label={item.text}
-            key={item.value}
-          />
-        ))}
-      </RadioGroup>
+        control={control}
+      />
     </FormControl>
   );
 };

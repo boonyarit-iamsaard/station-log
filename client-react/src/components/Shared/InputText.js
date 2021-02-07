@@ -1,35 +1,35 @@
+import { Controller } from 'react-hook-form';
 import { TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import propTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%'
-  }
-}));
-
-const InputText = ({
-  label,
-  name,
-  required,
-  type,
-  value,
-  onInputChangeHandler
-}) => {
-  const classes = useStyles();
-
+const InputText = ({ control, errors, label, name, type }) => {
   return (
-    <TextField
-      size="small"
-      variant="outlined"
-      type={type}
-      required={required}
-      onChange={onInputChangeHandler}
+    <Controller
+      as={
+        <TextField
+          error={errors.hasOwnProperty(name)}
+          fullWidth
+          helperText={errors.hasOwnProperty(name) ? 'Required' : null}
+          label={label}
+          margin="dense"
+          name={name}
+          type={type}
+          variant="outlined"
+        />
+      }
       name={name}
-      label={label}
-      value={value}
-      className={classes.root}
+      control={control}
+      rules={{ required: true }}
     />
   );
+};
+
+InputText.propTypes = {
+  errors: propTypes.object
+};
+
+InputText.defaultProps = {
+  errors: {}
 };
 
 export default InputText;

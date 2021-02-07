@@ -16,8 +16,8 @@
       <mat-form-field appearance="outline">
         <mat-label>Airline</mat-label>
         <mat-select formControlName="airline">
-          <mat-option *ngFor="let airline of airlines" [value]="airline.value">
-            {{ airline.text }}
+          <mat-option *ngFor="let airline of airlines" [value]="airline">
+            {{ airline }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -29,51 +29,76 @@
       <mat-form-field appearance="outline">
         <mat-label>A/C Reg.</mat-label>
         <input matInput formControlName="acreg" />
+        <mat-error>A/C Reg. is required.</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column">
       <mat-form-field appearance="outline">
         <mat-label>Part No.</mat-label>
         <input matInput formControlName="part" />
+        <mat-error>Part No. is required.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
         <input matInput formControlName="desc" />
+        <mat-error>Description is required.</mat-error>
       </mat-form-field>
+      <mat-radio-group
+        formControlName="type"
+        name="type"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutGap="1rem"
+      >
+        <label for="type">Type</label>
+        <mat-radio-button *ngFor="let type of types" [value]="type">
+          {{ type }}
+        </mat-radio-button>
+      </mat-radio-group>
     </div>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Serial No.</mat-label>
         <input matInput formControlName="serial" />
+        <mat-error>Serial No. is required.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>GRN</mat-label>
         <input matInput formControlName="grn" maxlength="10" />
-        <mat-error>GRN is required.</mat-error>
+        <mat-error *ngIf="spareMovementForm.controls['grn'].invalid">{{
+          onGrnInvalid()
+        }}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Qty.</mat-label>
         <input matInput formControlName="qty" type="number" />
+        <mat-error *ngIf="spareMovementForm.controls['qty'].invalid">{{
+          onQtyInvalid()
+        }}</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Store</mat-label>
         <mat-select formControlName="store">
-          <mat-option *ngFor="let store of stores" [value]="store.value">
-            {{ store.text }}
+          <mat-option *ngFor="let store of stores" [value]="store">
+            {{ store }}
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Used By</mat-label>
         <mat-select formControlName="usedBy" name="usedBy">
-          <mat-option *ngFor="let name of names" [value]="name.value">
-            {{ name.text }}
+          <mat-option *ngFor="let name of names" [value]="name">
+            {{ name }}
           </mat-option>
         </mat-select>
+        <mat-error>Used by is required.</mat-error>
       </mat-form-field>
     </div>
-    <button mat-raised-button color="primary" type="submit">Submit</button>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+      <button mat-raised-button>Cancle</button>
+    </div>
   </form>
 </mat-card>

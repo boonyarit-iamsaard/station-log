@@ -1,32 +1,29 @@
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
+import { Controller } from 'react-hook-form';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker
 } from '@material-ui/pickers';
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%'
-  }
-}));
-
-const InputDate = ({ name, onDateChangeHandler, value }) => {
-  const classes = useStyles();
-
+const InputDate = ({ control, name }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDatePicker
-        label="Date"
-        format="dd/MMM/yy"
-        size="small"
-        margin="none"
-        inputVariant="outlined"
+      <Controller
         name={name}
-        className={classes.root}
-        value={value}
-        onChange={onDateChangeHandler}
+        control={control}
+        render={({ ref, ...props }) => (
+          <KeyboardDatePicker
+            autoOk
+            format="dd/MMM/yy"
+            fullWidth
+            id="date-picker-dialog"
+            inputVariant="outlined"
+            label="Date"
+            margin="dense"
+            {...props}
+          />
+        )}
       />
     </MuiPickersUtilsProvider>
   );

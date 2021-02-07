@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 import {
   Button,
@@ -27,106 +28,73 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const defaultValues = {
+  date: new Date(),
+  airline: 'CX',
+  fltno: '',
+  reg: '',
+  part: '',
+  desc: '',
+  type: 'consumable',
+  serial: 'NIL',
+  grn: '',
+  qty: 0,
+  store: 'BKK',
+  usedBy: ''
+};
+
 const SpareMovementForm = () => {
+  const { control, errors, handleSubmit } = useForm({ defaultValues });
   const classes = useStyles();
-  const [dateInput, setDateInput] = useState(new Date());
-  const [formInput, setFormInput] = useState({
-    airline: 'CX',
-    fltno: '',
-    reg: '',
-    part: '',
-    desc: '',
-    type: 'consumable',
-    serial: 'NIL',
-    grn: '',
-    qty: 0,
-    store: 'BKK',
-    usedBy: ''
-  });
+  // const [submittedData, setSubmittedData] = useState(null);
 
   const nameItems = [
-    { text: 'Boonyarnt', value: 'Boonyarit' },
-    { text: 'Theerapong', value: 'Theerapong' },
-    { text: 'Totsapon', value: 'Totsapon' }
+    { label: 'Boonyarnt', value: 'Boonyarit' },
+    { label: 'Theerapong', value: 'Theerapong' },
+    { label: 'Totsapon', value: 'Totsapon' }
   ];
 
   const typeItems = [
-    { text: 'Consumable', value: 'consumable' },
-    { text: 'Return', value: 'return' },
-    { text: 'Fluid', value: 'fluid' }
+    { label: 'Consumable', value: 'consumable' },
+    { label: 'Return', value: 'return' },
+    { label: 'Fluid', value: 'fluid' }
   ];
 
-  const onDateChangeHandler = date => {
-    setDateInput(date);
-  };
-
-  const onInputChangeHandler = e => {
-    const { target } = e;
-    const { name, value } = target;
-
-    setFormInput({
-      ...formInput,
-      [name]: value
-    });
-  };
-
-  const onFormSubmit = e => {
-    e.preventDefault();
-
-    console.log({ ...formInput, date: dateInput });
-
-    setFormInput({
-      airline: 'CX',
-      fltno: '',
-      reg: '',
-      part: '',
-      desc: '',
-      type: 'consumable',
-      serial: 'NIL',
-      grn: '',
-      qty: 0,
-      store: 'BKK',
-      usedBy: ''
-    });
-    setDateInput(new Date());
+  const onSubmit = data => {
+    console.log(data);
+    // setSubmittedData(data);
   };
 
   return (
-    <form onSubmit={onFormSubmit}>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Card className={classes.root}>
         <CardContent>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={3}>
-              <InputDate
-                name="date"
-                value={dateInput}
-                onDateChangeHandler={onDateChangeHandler}
-              />
+              <InputDate control={control} name="date" />
             </Grid>
             <Grid item xs={12} sm={3}>
               <InputSelect
                 label="Airline"
                 name="airline"
-                value={formInput.airline}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
               <InputText
                 label="Flt No."
                 name="fltno"
-                required={true}
-                value={formInput.fltno}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
             <Grid item xs={12} sm={3}>
               <InputText
                 label="Reg."
                 name="reg"
-                required={true}
-                value={formInput.reg}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
           </Grid>
@@ -137,45 +105,35 @@ const SpareMovementForm = () => {
               <InputText
                 label="Part No."
                 name="part"
-                required={true}
-                value={formInput.part}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
             <Grid item xs={12}>
-              <InputText
-                label="Description"
-                name="desc"
-                required={true}
-                value={formInput.desc}
-                onInputChangeHandler={onInputChangeHandler}
-              />
+              <InputText label="Description" name="desc" control={control} />
             </Grid>
             <Grid item xs={12}>
               <InputRadioGroup
+                control={control}
+                items={typeItems}
                 label="Type"
                 name="type"
-                value={formInput.type}
-                items={typeItems}
-                onInputChangeHandler={onInputChangeHandler}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <InputText
                 label="Serial No."
                 name="serial"
-                required={true}
-                value={formInput.serial}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
               <InputText
                 label="GRN"
                 name="grn"
-                required={true}
-                value={formInput.grn}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -183,9 +141,8 @@ const SpareMovementForm = () => {
                 label="Qty"
                 name="qty"
                 type="number"
-                required={true}
-                value={formInput.qty}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
+                errors={errors}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -193,21 +150,18 @@ const SpareMovementForm = () => {
                 label="Store"
                 name="store"
                 items={[
-                  { text: 'BKK', value: 'BKK' },
-                  { text: 'BKK306', value: 'BKK306' }
+                  { label: 'BKK', value: 'BKK' },
+                  { label: 'BKK306', value: 'BKK306' }
                 ]}
-                value={formInput.store}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <InputSelect
                 label="Used By"
                 name="usedBy"
-                required={true}
                 items={nameItems}
-                value={formInput.usedBy}
-                onInputChangeHandler={onInputChangeHandler}
+                control={control}
               />
             </Grid>
           </Grid>
