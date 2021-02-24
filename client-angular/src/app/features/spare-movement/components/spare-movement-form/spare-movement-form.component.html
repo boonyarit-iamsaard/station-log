@@ -23,24 +23,40 @@
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Flt No.</mat-label>
-        <input matInput formControlName="fltno" />
+        <input
+          matInput
+          formControlName="fltno"
+          (input)="forceUpperCase('fltno', $event)"
+        />
         <mat-error>Flt No. is required.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>A/C Reg.</mat-label>
-        <input matInput formControlName="acreg" />
+        <input
+          matInput
+          formControlName="acreg"
+          (input)="forceUpperCase('acreg', $event)"
+        />
         <mat-error>A/C Reg. is required.</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column">
       <mat-form-field appearance="outline">
         <mat-label>Part No.</mat-label>
-        <input matInput formControlName="part" />
+        <input
+          matInput
+          formControlName="part"
+          (input)="forceUpperCase('part', $event)"
+        />
         <mat-error>Part No. is required.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
-        <input matInput formControlName="desc" />
+        <input
+          matInput
+          formControlName="desc"
+          (input)="forceUpperCase('desc', $event)"
+        />
         <mat-error>Description is required.</mat-error>
       </mat-form-field>
       <mat-radio-group
@@ -59,22 +75,26 @@
     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Serial No.</mat-label>
-        <input matInput formControlName="serial" />
+        <input
+          matInput
+          formControlName="serial"
+          (input)="forceUpperCase('serial', $event)"
+        />
         <mat-error>Serial No. is required.</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>GRN</mat-label>
         <input matInput formControlName="grn" maxlength="10" />
-        <mat-error *ngIf="spareMovementForm.controls['grn'].invalid">{{
-          onGrnInvalid()
-        }}</mat-error>
+        <mat-error *ngIf="grn.hasError('required')">GRN is required.</mat-error>
+        <mat-error *ngIf="grn.hasError('minlength')"
+          >GRN must contain 10 digits.</mat-error
+        >
       </mat-form-field>
       <mat-form-field appearance="outline" fxFlex="grow">
         <mat-label>Qty.</mat-label>
         <input matInput formControlName="qty" type="number" />
-        <mat-error *ngIf="spareMovementForm.controls['qty'].invalid">{{
-          onQtyInvalid()
-        }}</mat-error>
+        <mat-error *ngIf="qty.hasError('required')">QTY is required.</mat-error>
+        <mat-error *ngIf="qty.hasError('min')">Qty must more than 0.</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1rem">
@@ -97,8 +117,14 @@
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-      <button mat-raised-button>Cancle</button>
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!spareMovementForm.valid"
+      >
+        Submit
+      </button>
     </div>
   </form>
 </mat-card>
